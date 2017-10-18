@@ -34,7 +34,7 @@ export class SigninComponent implements OnInit {
 
   constructor(private authServService:AuthServService, private router: Router, private fb: FormBuilder) {
     this.rForm = fb.group({
-      'email' : [null, Validators.required, Validators.pattern("[^ @]*@[^ @]*")],
+      'email' : [null, [Validators.required, Validators.pattern("[^ @]*@[^ @]*")]],
       'password' : [null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(15)])],
       'validate' : ''
     });

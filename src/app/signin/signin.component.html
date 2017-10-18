@@ -7,7 +7,7 @@
         </div>
         <div class="container__password">
           <input type="password" formControlName="password" placeholder="Password">
-          <span *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">Between 6 and 15 characters</span>
+          <span class="alert" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">Between 6 and 15 characters</span>
         </div>
         <button type="submit" [disabled]="!rForm.valid">Go</button>
       </div>
