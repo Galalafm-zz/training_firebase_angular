@@ -1,0 +1,33 @@
+form {
+  margin-top: 30px;
+  position: absolute;
+  margin-left: -10.5%;
+  text-align: center;
+  > div {
+    width:350px;
+    margin:auto;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    > input {
+      border: 1px solid #F1F9FD;
+      border-radius: 5px;
+      height: 35px;
+      outline: none;
+      padding-left: 10px;
+      background-color: white;
+    }
+  }
+  > button {
+    border-radius: 50%;
+    border: none;
+    height: 50px;
+    width: 50px;
+    margin-top: 30px;
+    outline: none;
+    font-weight: 600;
+    color: white;
+    background-color: #0083E7;
+  }
+}

@@ -1,0 +1,17 @@
+.auth {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  > a {
+    width: 100%;
+  }
+  .button {
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  .active {
+    color: #0083E7;
+    font-weight: 600;
+  }
+}
