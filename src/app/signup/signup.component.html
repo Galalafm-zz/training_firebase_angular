@@ -1,5 +1,5 @@
-<form (ngSubmit)="onSup(sForm)" #sForm="ngForm" class="col-6">
-  <div class="form-group">
+<!-- <form (ngSubmit)="onSup(sForm)" #sForm="ngForm" class="col-6">
+  <div class="form-group"> -->
     <!-- <div>
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" ngModel required>
@@ -8,11 +8,25 @@
       <label for="photo">Photo</label>
       <input type="file" id="photo" name="photo" ngModel required capture>
     </div> -->
-      <input type="email" id="email" name="email" placeholder="Email" ngModel required>
-      <input type="password" id="password" name="password" placeholder="Password" ngModel required>
+      <!-- <input type="email" id="email" name="email" placeholder="Email" ngModel required>
+      <input type="password" id="password" name="password" placeholder="Password" ngModel required> -->
     <!-- <div *ngIf="!isValid">
       <p>Password too weak</p>
     </div> -->
-  </div>
+  <!-- </div>
   <button type="submit">Go</button>
+</form> -->
+<form [formGroup]="rForm" (ngSubmit)="onSup(rForm.value)">
+  <div class="row columns container">
+    <div class="container__email">
+      <input type="email" formControlName="email" placeholder="Email" [(ngModel)]="email">
+      <span *ngIf="error.message.length > 0">{{error.message}}</span>
+      <span class="alert" *ngIf="!rForm.controls['email'].valid && rForm.controls['email'].touched">{{ titleAlert }}</span>
+    </div>
+    <div class="container__password">
+      <input type="password" formControlName="password" placeholder="Password">
+      <span class="alert" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">Between 6 and 15 characters</span>
+    </div>
+    <button type="submit" [disabled]="!rForm.valid">Go</button>
+  </div>
 </form>

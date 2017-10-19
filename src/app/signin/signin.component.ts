@@ -29,8 +29,9 @@ export class SigninComponent implements OnInit {
   rForm: FormGroup;
   post:any;
   email:string = '';
-  titleAlert:string = 'Email required';
+  titleAlert:string = 'Invalid Email.';
   password:string = '';
+  error: {name:string, message:string} = {name: '', message: ''};
 
   constructor(private authServService:AuthServService, private router: Router, private fb: FormBuilder) {
     this.rForm = fb.group({
@@ -40,34 +41,14 @@ export class SigninComponent implements OnInit {
     });
   }
 
-  onSin(post, user: User) {
-    user = new User();
-    user.email = post.email;
-    user.password = post.password;
-    this.authServService.sInFunc(user.email, user.password);
-  }
-
   ngOnInit() {
-    this.rForm.get('validate').valueChanges.subscribe(
-      (validate) => {
-        if (validate == '1') {
-          this.rForm.get('email').setValidators([Validators.required, Validators.pattern("[^ @]*@[^ @]*")]);
-          this.titleAlert = 'Invalid email.'
-        }
-        else {
-          this.rForm.get('email').setValidators(Validators.required);
-        }
-        this.rForm.get('email').updateValueAndValidity();
-      });
   }
 
-  // @Input() errorMessage: string;
-
-  // onSin(form: NgForm, user: User) {
-  //   user = new User();
-  //   user.email = form.value.email;
-  //   user.password = form.value.password;
-  //   this.authServService.sInFunc(user.email, user.password);
-  //   console.log(this.errorMessage);
-  // }
+  onSin(post):void {
+    this.authServService.sInFunc(post.email, post.password)
+    .catch(_error => {
+      this.error = _error
+      this.router.navigate(['/signin'], 'signin')
+    })
+  }
 }

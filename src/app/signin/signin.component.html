@@ -1,15 +1,14 @@
-<div *ngIf="!name">
-  <form [formGroup]="rForm" (ngSubmit)="onSin(rForm.value)">
-      <div class="row columns container">
-        <div class="container__email">
-          <input type="text" formControlName="email" placeholder="Email">
-          <span class="alert" *ngIf="!rForm.controls['email'].valid && rForm.controls['email'].touched">{{ titleAlert }}</span>
-        </div>
-        <div class="container__password">
-          <input type="password" formControlName="password" placeholder="Password">
-          <span class="alert" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">Between 6 and 15 characters</span>
-        </div>
-        <button type="submit" [disabled]="!rForm.valid">Go</button>
-      </div>
-  </form>
-</div>
+<form [formGroup]="rForm" (ngSubmit)="onSin(rForm.value)">
+  <div class="row columns container">
+    <div class="container__email">
+      <input type="text" formControlName="email" placeholder="Email">
+      <span class="alert" *ngIf="!rForm.controls['email'].valid && rForm.controls['email'].touched">{{ titleAlert }}</span>
+    </div>
+    <div class="container__password">
+      <input type="password" formControlName="password" placeholder="Password">
+      <span *ngIf="error.message.length > 0">{{error.message}}</span>
+      <span class="alert" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">Between 6 and 15 characters</span>
+    </div>
+    <button type="submit" [disabled]="!rForm.valid">Go</button>
+  </div>
+</form>

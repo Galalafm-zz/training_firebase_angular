@@ -3,62 +3,72 @@ import * as firebase from 'firebase';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { routing } from './app.routes';
 
+export var errorMsg: string = '';
+
 @Injectable()
 export class AuthServService {
-  constructor (public router: Router) {}
+  authState: any = null;
 
-  public errorMessage: string;
-
-  sUpFunc(displayName: string, photoURL: string, email: string, password: string){
-    firebase.auth().createUserWithEmailAndPassword(email,password)
-    .then((res) => {
-      this.sendEmailVerification();
-      this.router.navigate(['/signin'], 'signin');
-    })
-    .catch(function(error) {
-      var errorCode = error['code'],
-          errorMessage =  error.message;
-      if (errorCode == 'auth/weak-password') {
-        alert('The password is too weak.')
-      } else if (errorCode == 'auth/email-already-in-use') {
-        alert('Email already in use.')
-      } else {
-        alert(errorMessage)
-      }
-      console.log(error)
-
-    });
-    // var user = firebase.auth().currentUser;
-    // console.log(user);
-    // if (user) {
-    //   user.updateProfile({
-    //     displayName: displayName,
-    //     photoURL: photoURL
-    //   }).catch(function(error) {
-    //     var errorCode = error['code'],
-    //         errorMessage =  error.message;
-    //     alert(errorMessage);
-    //     alert(errorCode)
-    //   });
-    // } else {
-    //   // No user is signed in.
-    // }
+  constructor(private router: Router) {
+    this.authState = firebase.auth().currentUser;
   }
-  sInFunc(email: string, password: string){
-    firebase.auth().signInWithEmailAndPassword(email,password)
-    .then((user) => {
-        if(user.emailVerified) {
-          this.router.navigate(['/home'], 'home');
-        } else {
-           var errorMessage = "Verify your email";
-           console.log(errorMessage);
-          // Tell the user to have a look at its mailbox
-        }
-    })
-    .catch(
-    error => console.log(error)
-    )
+
+  get isUserAnonymousLoggedIn(): boolean {
+    return (this.authState !== null) ? this.authState.isAnonymous : false
   }
+
+  get currentUserId(): string {
+    return (this.authState !== null) ? this.authState.uid : ''
+  }
+
+  get currentUserName(): string {
+    return this.authState['email']
+  }
+
+  get currentUser(): any {
+    return (this.authState !== null) ? this.authState : null;
+  }
+
+  get isUserEmailLoggedIn(): boolean {
+    if ((this.authState !== null) && (!this.isUserAnonymousLoggedIn)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  // Sign Up
+  sUpFunc(email: string, password: string) {
+    return firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((res) => {
+        this.sendEmailVerification()
+        this.router.navigate(['/signin'], 'signin')
+      })
+      .catch(error => {
+        console.log(error)
+        throw error
+      });
+  }
+
+  // Sign In
+  sInFunc(email: string, password: string) {
+    return firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((res) => {
+        this.router.navigate(['/home'], 'home');
+      })
+      .catch(error => {
+        console.log(error)
+        throw error
+      });
+  }
+
+  // Sign Out
+  signOut(): void {
+    firebase.auth().signOut();
+    this.router.navigate(['/'])
+  }
+
+  // Email Verification
   sendEmailVerification() {
     var user = firebase.auth().currentUser;
     user.sendEmailVerification().then(function() {
@@ -67,5 +77,20 @@ export class AuthServService {
       console.log(error)
     })
   }
-
+  //   // var user = firebase.auth().currentUser;
+  //   // console.log(user);
+  //   // if (user) {
+  //   //   user.updateProfile({
+  //   //     displayName: displayName,
+  //   //     photoURL: photoURL
+  //   //   }).catch(function(error) {
+  //   //     var errorCode = error['code'],
+  //   //         errorMessage =  error.message;
+  //   //     alert(errorMessage);
+  //   //     alert(errorCode)
+  //   //   });
+  //   // } else {
+  //   //   // No user is signed in.
+  //   // }
+  // }
 }
