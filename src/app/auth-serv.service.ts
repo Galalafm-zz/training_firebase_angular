@@ -3,8 +3,6 @@ import * as firebase from 'firebase';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { routing } from './app.routes';
 
-export var errorMsg: string = '';
-
 @Injectable()
 export class AuthServService {
   authState: any = null;
@@ -37,6 +35,17 @@ export class AuthServService {
     }
   }
 
+  // Promise
+  isUserLoggedIn() {
+    return new Promise (function(resolve, reject) {
+      if ((this.authState !== null) && (!this.isUserAnonymousLoggedIn)) {
+        resolve(true)
+      } else {
+        resolve(false)
+      }
+    })
+  }
+
   // Sign Up
   sUpFunc(email: string, password: string) {
     return firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -54,7 +63,8 @@ export class AuthServService {
   sInFunc(email: string, password: string) {
     return firebase.auth().signInWithEmailAndPassword(email, password)
       .then((res) => {
-        this.router.navigate(['/home'], 'home');
+        console.log('yeah')
+        this.router.navigate(['/home'], 'home')
       })
       .catch(error => {
         console.log(error)
@@ -64,15 +74,15 @@ export class AuthServService {
 
   // Sign Out
   signOut(): void {
-    firebase.auth().signOut();
+    firebase.auth().signOut()
     this.router.navigate(['/'])
   }
 
   // Email Verification
   sendEmailVerification() {
-    var user = firebase.auth().currentUser;
+    var user = firebase.auth().currentUser
     user.sendEmailVerification().then(function() {
-      console.log('email sent');
+      console.log('email sent')
     }).catch(function(error) {
       console.log(error)
     })

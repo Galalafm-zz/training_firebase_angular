@@ -22,14 +22,14 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { StatusesComponent } from './statuses/statuses.component';
 import { AuthComponent } from './auth/auth.component';
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyB8sCm1r_h6BvGUyrBYCS29nY0hV9JQ4do",
-  authDomain: "galapp-d2847.firebaseapp.com",
-  databaseURL: "https://galapp-d2847.firebaseio.com",
-  projectId: "galapp-d2847",
-  storageBucket: "",
-  messagingSenderId: "851937489645"
-};
+// export const firebaseConfig = {
+//   apiKey: "AIzaSyB8sCm1r_h6BvGUyrBYCS29nY0hV9JQ4do",
+//   authDomain: "galapp-d2847.firebaseapp.com",
+//   databaseURL: "https://galapp-d2847.firebaseio.com",
+//   projectId: "galapp-d2847",
+//   storageBucket: "",
+//   messagingSenderId: "851937489645"
+// };
 
 @NgModule({
   declarations: [
@@ -50,7 +50,7 @@ export const firebaseConfig = {
     HttpModule,
     BrowserAnimationsModule,
     routing,
-    AngularFireModule.initializeApp(firebaseConfig),
+    // AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
